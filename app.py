@@ -21,7 +21,19 @@ def index():
 
     # Create the main lists of items from Notion
     data = []
-    categories = []
+    categories = [
+        "🍎 Fruit",
+        "🥕 Vegetable",
+        "🧀 Dairy",
+        "🥩 Meat",
+        "🍹 Drink",
+        "🥯 Bread",
+        "🍝 Pasta",
+        "🍯 Spread",
+        "🍫 Snack",
+        "🏠 House",
+        "💊 Meds",
+    ]
     
     # Execute the filter into the Notion database
     next = {}
@@ -40,17 +52,13 @@ def index():
             item["id"] = res["results"][i]["id"]
             item["type"] = res["results"][i]["properties"]["Type"]["multi_select"][0]["name"]
             item["tobuy"] = res["results"][i]["properties"]["To buy"]["checkbox"]
-            
-            # As an extra step, parse the categories
-            if item["type"] not in categories:
-                categories.append(item["type"])
+            item["season"] = res["results"][i]["properties"]["Season"]["formula"]["boolean"]
             
             # Finish populating the list
             data.append(item)
         
         next = {"start_cursor": res["next_cursor"]}
 
-    
     # Render the page, passing the list and categories
     return render_template("index.html", data=data, categories=categories)
 
