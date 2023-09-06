@@ -10,25 +10,24 @@
     <body>
         <div id="shopping">
             {% for category in categories %}
-            <div class="title">{{ category }}</div>
-                {% for i in data %}
-                    {% if i.type == category %}
-                        <div id="{{ i.id }}" class="item {{ i.type }} {% if i.tobuy %}x{% endif %}" {% if i.tobuy %}style="display: flex;"{% else %}style="display: none;"{% endif %}>
-                            <img src="{{ i.icon }}">
-                            <span class="text">
-                                {{ i.name }}
-                            </span>
-                        </div>
-                    {% endif %}
+                <div class="title">{{ category }}</div>
+                    {% for i in data %}
+                        {% if i.type == category %}
+                            <div id="{{ i.id }}" class="item {{ i.type }} {% if i.tobuy %}x{% endif %} {% if i.season %}gold-border{% endif %}" {% if i.tobuy %}style="display: flex;"{% else %}style="display: none;"{% endif %}>
+                                <img src="{{ i.icon }}">
+                                <span class="text">
+                                    {{ i.name }}
+                                </span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-        </div>
-
+            </div>
         <div style="height: 50px;"></div>
 
         <div id="footer">
             <div class="button" id="listButton">
-                <img src="https://file.notion.so/f/f/598f8c84-f294-4784-94b9-f7d2a817ea25/6ae5ea60-f65b-4244-a8bf-9b224c01b5ec/shopping-list.png?id=41294706-183d-4152-8809-0bf2442d5d05&table=block&spaceId=598f8c84-f294-4784-94b9-f7d2a817ea25&expirationTimestamp=1693929600000&signature=BouzlM0JJH_VXYLRhXyKC3shWeMweeiQjQj6U1knjK4&downloadName=shopping-list.png">
+                <img src="">
             </div>
             <div id="search">
                 <input type="text" placeholder="Search by name" id="searchBar">
