@@ -1,2 +1,9 @@
-# grocery_app
-A webpage that uses Notion database as a backend to track grocery lists
+## Grocery App
+
+Image
+
+This app turns your notion database of grocery items into a dynamic, easy to use page.
+
+## Built With
+
+* [![JavaScript][javascript.com]][Javascript-url]
