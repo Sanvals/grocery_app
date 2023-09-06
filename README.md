@@ -6,4 +6,5 @@ This app turns your notion database of grocery items into a dynamic, easy to use
 
 ## Built With
 
-* [![JavaScript][javascript.com]][Javascript-url]
+
+* [![Next][Next.js]][Next-url]
