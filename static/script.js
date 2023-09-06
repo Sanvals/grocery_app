@@ -9,12 +9,18 @@ document.addEventListener("DOMContentLoaded", function() {
     const search = document.querySelector("#search");
     // Catch the search bar
     const searchBar = document.querySelector("#searchBar");
+    // Button icons
+    const imgPack = "https://prod-files-secure.s3.us-west-2.amazonaws.com/598f8c84-f294-4784-94b9-f7d2a817ea25/76671d29-1a88-4885-b15e-06b75eefbc4e/shopping-bag.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230906%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230906T151334Z&X-Amz-Expires=3600&X-Amz-Signature=49530ddcbd30e5efde9ddf2441edf7a378ad117aa6b8940631a886886b8a7757&X-Amz-SignedHeaders=host&x-id=GetObject"
+    const imgList = "https://prod-files-secure.s3.us-west-2.amazonaws.com/598f8c84-f294-4784-94b9-f7d2a817ea25/6ae5ea60-f65b-4244-a8bf-9b224c01b5ec/shopping-list.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230906%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230906T151428Z&X-Amz-Expires=3600&X-Amz-Signature=49516b38d205b38a5bee2ae08cc53f414e3f3267ea24e448e9f1767af16c50db&X-Amz-SignedHeaders=host&x-id=GetObject"
+    // Set the starting button icon
+    listButton.getElementsByTagName("img")[0].src = imgList;
 
     // Elaborate the eventListeners
     itemButton.forEach(btn => {
         btn.addEventListener("click", function() {
 
             // Switch item from the database
+            /*
             newForm = new FormData()
             newForm.append("id", btn.id)
 
@@ -22,25 +28,22 @@ document.addEventListener("DOMContentLoaded", function() {
                 method: 'POST',
                 body: newForm,
             })
+            */
 
             if (this.classList.contains("x")) {
                 this.classList.remove("x");
             } else {
                 this.classList.add("x");
             }
-            
+
             // Play the animation
             this.style.animationPlayState = "running";
             this.addEventListener('animationend', () => {
                 // Once it ends, hide the div
                 this.style.display = "none";
                 this.style.animationPlayState = "paused"
-
-                // And check for the items
-                
-                // If there are none of this category, hide the title
             })
-            
+
         })
     })
 
@@ -61,10 +64,6 @@ document.addEventListener("DOMContentLoaded", function() {
             search.style.animationPlayState = "running";
         }
 
-        // Change the icon
-        const imgPack = "https://file.notion.so/f/f/598f8c84-f294-4784-94b9-f7d2a817ea25/76671d29-1a88-4885-b15e-06b75eefbc4e/shopping-bag.png?id=c26adab7-b9eb-49dc-ae79-8f14aa02aa25&table=block&spaceId=598f8c84-f294-4784-94b9-f7d2a817ea25&expirationTimestamp=1693929600000&signature=JC-d8jnYk3I-nzQ6daorURykdkPnJQhIECPKiW_jdDA&downloadName=shopping-bag.png"
-        const imgList = "https://file.notion.so/f/f/598f8c84-f294-4784-94b9-f7d2a817ea25/6ae5ea60-f65b-4244-a8bf-9b224c01b5ec/shopping-list.png?id=41294706-183d-4152-8809-0bf2442d5d05&table=block&spaceId=598f8c84-f294-4784-94b9-f7d2a817ea25&expirationTimestamp=1693929600000&signature=BouzlM0JJH_VXYLRhXyKC3shWeMweeiQjQj6U1knjK4&downloadName=shopping-list.png"
-        
         // Switch the elements
         if (this.getElementsByTagName("img")[0].src == imgList) {
             this.getElementsByTagName("img")[0].src = imgPack;
@@ -75,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 } else {
                     itm.style.display = "flex";
                 }
-            })
+            });
         } else {
             this.getElementsByTagName("img")[0].src = imgList;
 
@@ -85,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 } else {
                     itm.style.display = "none";
                 }
-            })
+            });
         }
     })
 
@@ -113,6 +112,5 @@ document.addEventListener("DOMContentLoaded", function() {
                 itemButton[i].style.display = "none";
             }
         }
-
     });
 });

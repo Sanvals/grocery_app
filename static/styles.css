@@ -32,6 +32,12 @@ img {
     animation-play-state: paused;
 }
 
+.gold-border {
+    border-color: gold;
+    border-width: 1px;
+    border-style: solid;
+}
+
 .button {
     width: 50px;
     border-radius: 15px;
@@ -75,7 +81,7 @@ img {
     margin-bottom: 10px;
     background-color: rgba(41, 41, 41, 0);
     font-weight: bold;
-    width: 97vw;
+    width: 100vw;
 }
 
 #footer {
@@ -201,7 +207,7 @@ img {
     }
 
     .title {
-        width: 97vw;
+        width: 100vw;
         margin: 0px;
     }
 
