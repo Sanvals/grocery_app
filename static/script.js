@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
         btn.addEventListener("click", function() {
 
             // Switch item from the database
-            /*
+            
             newForm = new FormData()
             newForm.append("id", btn.id)
 
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 method: 'POST',
                 body: newForm,
             })
-            */
+            
 
             if (this.classList.contains("x")) {
                 this.classList.remove("x");
