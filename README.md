@@ -4,9 +4,9 @@
 <img src="https://i.imgur.com/7mwWH1j.gif">
 </p>
 
-This app turns your notion database of grocery items into a dynamic, easy to use page.
+This app turns your notion database of grocery items into a dynamic, easy to use page. It extracts and displays the items of all the ingredients stored in the database, and displays them according to their "to buy" status.
 
-<strong>New version:</strong> Now it also displays which items are on seson with a golden border.
+<strong>💡 New version:</strong> Now it also displays which items are on seson with a golden border.
 
 ## Built With
 
