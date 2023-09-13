@@ -2,18 +2,14 @@ from flask import Flask, render_template, request
 import requests
 import os
 import json
+from utils import callDB as callDB
+
+TOKEN = os.environ['TOKEN']
+DB_ID = os.environ['DATABASE_ID']
+DB_BUTTONS_ID = os.environ['DB_BUTTONS_ID']
 
 # Initialize the flask project
 app = Flask(__name__)
-
-# Create the headers and the endpoints
-headers = {
-  "Authorization": "Bearer " + os.environ["TOKEN"],
-  "Content-type": "application/json",
-  "Notion-Version": "2022-06-28"
-}
-
-database_url = f"https://api.notion.com/v1/databases/{os.environ['DATABASE_ID']}/query"
     
 # Create the main route
 @app.route("/")
@@ -36,13 +32,10 @@ def index():
     ]
     
     # Execute the filter into the Notion database
-    next = {}
+    next_cursor = {}
     # Cycle through the pages
-    for i in range(0, 2):
-        res = requests.request("POST",
-                            database_url,
-                            json=next,
-                            headers=headers).json()
+    for _ in range(0, 2):
+        res = callDB("POST", "database", DB_ID, next_cursor)
         
         # Parse the results into the lists of items for the web
         for i in range(len(res["results"])):
@@ -61,13 +54,8 @@ def index():
 
     # Capture tue button icons
     button_img = {}
-    
-    buttons_url = f"https://api.notion.com/v1/databases/{os.environ['DB_BUTTONS_ID']}/query"
-    
-    resButtonPack = requests.request("POST",
-                                    buttons_url,
-                                    json={},
-                                    headers=headers).json()
+        
+    resButtonPack = callDB("POST", "database", DB_BUTTONS_ID)
     
     for index, item in enumerate(resButtonPack["results"]):
         name = item["properties"]["Name"]["title"][0]["text"]["content"]
@@ -80,15 +68,12 @@ def index():
 # Create the route to delete items from the Notion database
 @app.route("/checkItem", methods=["POST"])
 def remove():
-    
     # Catch the ID of the item
     objectId = request.form.get("id")
     objectUrl = "https://api.notion.com/v1/pages/"
     
     # Check if the object is marked as "To buy"
-    fetchItem = requests.request("GET",
-                                objectUrl + objectId,
-                                headers=headers).json()
+    fetchItem = callDB("GET", "page", objectId)
     
     # Switch the checkbox in whichever state it is
     fetchValue = not fetchItem["properties"]["To buy"]["checkbox"]
@@ -104,10 +89,10 @@ def remove():
     payload = json.dumps(payload)
     
     # Execute the query
-    requests.request("PATCH",
-                    objectUrl + objectId,  
-                    data=payload, 
-                    headers=headers)
+    callDB("PATCH", "page", objectId, payload)
 
-    return "Item deleted"
+    return 0
 
+
+if __name__ == "__main__":
+    app.run()
