@@ -2,7 +2,6 @@ import requests
 import os
 
 TOKEN = os.environ['TOKEN']
-DB_ID = os.environ['DATABASE_ID']
 
 headers = {
   "Authorization": "Bearer " + TOKEN,

@@ -4,7 +4,6 @@ import os
 import json
 from utils import callDB as callDB
 
-TOKEN = os.environ['TOKEN']
 DB_ID = os.environ['DATABASE_ID']
 DB_BUTTONS_ID = os.environ['DB_BUTTONS_ID']
 
