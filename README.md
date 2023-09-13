@@ -32,3 +32,7 @@ DATABASE_ID=XXXX
 ```py
 flask run
 ```
+If you want to run it in debug mode:
+```py
+flask --debug run
+```
