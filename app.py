@@ -14,7 +14,7 @@ headers = {
 }
 
 database_url = f"https://api.notion.com/v1/databases/{os.environ['DATABASE_ID']}/query"
-
+    
 # Create the main route
 @app.route("/")
 def index():
@@ -59,9 +59,23 @@ def index():
         
         next = {"start_cursor": res["next_cursor"]}
 
-    # Render the page, passing the list and categories
-    return render_template("index.html", data=data, categories=categories)
+    # Capture tue button icons
+    button_img = {}
+    
+    buttons_url = f"https://api.notion.com/v1/databases/{os.environ['DB_BUTTONS_ID']}/query"
+    
+    resButtonPack = requests.request("POST",
+                                    buttons_url,
+                                    json={},
+                                    headers=headers).json()
+    
+    for index, item in enumerate(resButtonPack["results"]):
+        name = item["properties"]["Name"]["title"][0]["text"]["content"]
+        content = item["icon"]["file"]["url"]
+        button_img[name.lower()] = content
 
+    # Render the page, passing the list and categories
+    return render_template("index.html", data=data, categories=categories, button_img=json.dumps(button_img))
 
 # Create the route to delete items from the Notion database
 @app.route("/checkItem", methods=["POST"])

@@ -117,7 +117,7 @@ img {
     font-size: 20px;
     padding: 20px;
     border: 1px solid gray;
-    margin: 5px;
+    margin: 0px;
 }
 
 #search input:focus {
@@ -135,7 +135,7 @@ img {
     }
     100% {
         opacity: 1;
-        width: 300px;
+        width: min(300px, 50%);
     }
 }
 
