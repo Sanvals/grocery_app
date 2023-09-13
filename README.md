@@ -25,10 +25,11 @@ git clone git@github.com:Sanvals/grocery_app.git
 ```
 3. Get your Notion API token [here](https://developers.notion.com/docs/create-a-notion-integration)
 4. Add the integration to your database
-5. Add the database ID and your token to the `.env` file
+5. Add the databases ID and your token to the `.env` file
 ```py
-TOKEN=secret_XXXX
-DATABASE_ID=XXXX
+TOKEN = secret_XXXX
+DATABASE_ID = XXXX
+DB_BUTTONS_ID = XXXX
 ```
 6. Run the project in Flask
 ```py
