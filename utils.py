@@ -1,7 +1,10 @@
 import requests
 import os
+from dotenv import load_dotenv
 
-TOKEN = os.environ['TOKEN']
+load_dotenv()
+
+TOKEN = os.environ["TOKEN"]
 
 headers = {
   "Authorization": "Bearer " + TOKEN,

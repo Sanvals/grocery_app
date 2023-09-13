@@ -1,18 +1,25 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Catch the divs
-    const itemButton = document.querySelectorAll(".item");
+    const shopping = document.querySelector("#shopping");
+    const recipes = document.querySelector("#recipes");
     const titles = document.getElementById("shopping").querySelectorAll(".title");
+    const itemButton = document.querySelectorAll(".item");
     const listButton = document.querySelector("#listButton");
+    const recipesButton = document.querySelector("#recipesButton");
+    const itemRecipes = document.querySelectorAll(".recipe");
+    const imgPack = JSON.parse(document.getElementById("button_img").textContent)["pack"];
+    const imgList = JSON.parse(document.getElementById("button_img").textContent)["list"];
+    const imgRecipes = JSON.parse(document.getElementById("button_img").textContent)["recipes"];
+    const imgCart = JSON.parse(document.getElementById("button_img").textContent)["cart"];
     const search = document.querySelector("#search");
     const searchBar = document.querySelector("#searchBar");
-    const settingsButton = document.querySelector("#settingsButton");
-    const imgPack = JSON.parse(document.getElementById("button_img").textContent)["pack"]
-    const imgList = JSON.parse(document.getElementById("button_img").textContent)["list"]
-    const imgSettings = JSON.parse(document.getElementById("button_img").textContent)["settings"]
     
     // Assign the btutons the proper images
     listButton.getElementsByTagName("img")[0].src = imgList;
-    settingsButton.getElementsByTagName("img")[0].src = imgSettings;
+    recipesButton.getElementsByTagName("img")[0].src = imgRecipes;
+
+    // Hide the recipes area
+    recipes.style.display = "none";
 
     // Elaborate the eventListeners
     itemButton.forEach(btn => {
@@ -42,6 +49,13 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
     });
+
+    // EventListeners for the recipe buttons
+    itemRecipes.forEach(recipe => {
+        recipe.addEventListener("click", function() {
+            console.log(recipe.getAttribute("data-img"))
+        })
+    })
 
     // Pivot between the two modes
     listButton.addEventListener("click", function() {
@@ -81,6 +95,37 @@ document.addEventListener("DOMContentLoaded", function() {
                     itm.style.display = "none";
                 }
             });
+        }
+    })
+
+    // Pivot between recipes and cart mode
+    recipesButton.addEventListener("click", function() {
+        if (this.getElementsByTagName("img")[0].src == imgRecipes) {
+            // Manage the areas
+            recipes.style.display = "flex";
+            shopping.style.display = "none";
+    
+            // Manage the buttons
+            listButton.style.display = "none";
+            this.getElementsByTagName("img")[0].src = imgCart;
+
+            // Hide the searchbar if it's visible
+            if (search.style.animationPlayState == "running") {
+                search.style.animationName = "search-disappear";
+                search.style.animationPlayState = "running";
+                setTimeout(() => {
+                    search.style.animationPlayState = "paused";
+                    search.style.display = "none";
+                }, 500)
+            }
+        } else {
+            // Manage the areas
+            recipes.style.display = "none";
+            shopping.style.display = "flex";
+
+            // Manage the buttons
+            listButton.style.display = "block";
+            this.getElementsByTagName("img")[0].src = imgRecipes;
         }
     })
 

@@ -9,20 +9,33 @@
     </head>
     <body>
         <div id="shopping">
+            <h2>Ingredients</h2>
             {% for category in categories %}
                 <div class="title">{{ category }}</div>
-                    {% for i in data %}
-                        {% if i.type == category %}
-                            <div id="{{ i.id }}" class="item {{ i.type }} {% if i.tobuy %}x{% endif %} {% if i.season %}gold-border{% endif %}" {% if i.tobuy %}style="display: flex;"{% else %}style="display: none;"{% endif %}>
-                                <img src="{{ i.icon }}">
-                                <span class="text">
-                                    {{ i.name }}
-                                </span>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+                {% for i in data %}
+                    {% if i.type == category %}
+                        <div id="{{ i.id }}" class="item {{ i.type }} {% if i.tobuy %}x{% endif %} {% if i.season %}gold-border{% endif %}" {% if i.tobuy %}style="display: flex;"{% else %}style="display: none;"{% endif %}>
+                            <img src="{{ i.icon }}">
+                            <span class="text">
+                                {{ i.name }}
+                            </span>
+                        </div>
+                    {% endif %}
                 {% endfor %}
-            </div>
+            {% endfor %}
+        </div>
+        <div id="recipes">
+            <h2>Recipes</h2>
+            {% for recipe in recipes %}
+                <div id="{{ recipe.id }}" class="recipe" style="background: url('{{ recipe.img }}'); background-size: 100%; background-repeat: no-repeat; background-position-y: 50%;" data-img="{{ recipe.img }}">
+                    <img src="{{ recipe.icon }}">
+                    <span class="text">
+                        {{ recipe.name }}
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+
         <div style="height: 50px;"></div>
 
         <div id="footer">
@@ -32,7 +45,7 @@
             <div id="search">
                 <input type="text" placeholder="Search by name" id="searchBar">
             </div>
-            <div class="button" id="settingsButton">
+            <div class="button" id="recipesButton">
                 <img src="">
             </div>
             <div id="button_img" hidden>{{ button_img }}</div>

@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request
-import requests
 import os
 import json
 from utils import callDB as callDB
 
 DB_ID = os.environ['DATABASE_ID']
 DB_BUTTONS_ID = os.environ['DB_BUTTONS_ID']
+DB_RECIPES_ID = os.environ['DB_RECIPES_ID']
 
 # Initialize the flask project
 app = Flask(__name__)
@@ -16,6 +16,7 @@ def index():
 
     # Create the main lists of items from Notion
     data = []
+    recipes = []
     categories = [
         "🍎 Fruit",
         "🥕 Vegetable",
@@ -37,20 +38,37 @@ def index():
         res = callDB("POST", "database", DB_ID, next_cursor)
         
         # Parse the results into the lists of items for the web
-        for i in range(len(res["results"])):
+        for result in res["results"]:
             item = {}
-            item["name"] = res["results"][i]["properties"]["Ingredient"]["title"][0]["text"]["content"]
-            item["icon"] = res["results"][i]["icon"]["file"]["url"]
-            item["id"] = res["results"][i]["id"]
-            item["type"] = res["results"][i]["properties"]["Type"]["multi_select"][0]["name"]
-            item["tobuy"] = res["results"][i]["properties"]["To buy"]["checkbox"]
-            item["season"] = res["results"][i]["properties"]["Season"]["formula"]["boolean"]
+            item["name"] = result["properties"]["Ingredient"]["title"][0]["text"]["content"]
+            item["icon"] = result["icon"]["file"]["url"]
+            item["id"] = result["id"]
+            item["type"] = result["properties"]["Type"]["multi_select"][0]["name"]
+            item["tobuy"] = result["properties"]["To buy"]["checkbox"]
+            item["season"] = result["properties"]["Season"]["formula"]["boolean"]
             
             # Finish populating the list
             data.append(item)
         
-        next = {"start_cursor": res["next_cursor"]}
+        next_cursor = {"start_cursor": res["next_cursor"]}
 
+    # Capture the recipes
+    resRecipes = callDB("POST", "database", DB_RECIPES_ID)
+    
+    for result in resRecipes["results"]:
+        recipe = {}
+        recipe["name"] = result["properties"]["Name"]["title"][0]["text"]["content"]
+        
+        recipe["icon"] = result["icon"]["file"]["url"]
+        recipe["id"] = result["id"]
+        if result["cover"] != None:
+            recipe["img"] = result["cover"]["file"]["url"]
+        else:
+            recipe["img"] = "None"
+            
+        if recipe["name"] != "Daily plan":
+            recipes.append(recipe)
+    
     # Capture tue button icons
     button_img = {}
         
@@ -62,14 +80,17 @@ def index():
         button_img[name.lower()] = content
 
     # Render the page, passing the list and categories
-    return render_template("index.html", data=data, categories=categories, button_img=json.dumps(button_img))
+    return render_template("index.html", 
+                           data=data, 
+                           categories=categories, 
+                           button_img=json.dumps(button_img),
+                           recipes=recipes)
 
 # Create the route to delete items from the Notion database
 @app.route("/checkItem", methods=["POST"])
 def remove():
     # Catch the ID of the item
     objectId = request.form.get("id")
-    objectUrl = "https://api.notion.com/v1/pages/"
     
     # Check if the object is marked as "To buy"
     fetchItem = callDB("GET", "page", objectId)
@@ -89,8 +110,8 @@ def remove():
     
     # Execute the query
     callDB("PATCH", "page", objectId, payload)
-
-    return 0
+    
+    return "Item changed"
 
 
 if __name__ == "__main__":
