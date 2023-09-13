@@ -6,6 +6,8 @@
 
 This app turns your notion database of grocery items into a dynamic, easy to use page.
 
+<strong>New version:</strong> Now it also displays which items are on seson with a golden border.
+
 ## Built With
 
 * ![Static Badge](https://img.shields.io/badge/Javascript-black?logo=javascript)
