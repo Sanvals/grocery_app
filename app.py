@@ -16,7 +16,6 @@ def index():
 
     # Create the main lists of items from Notion
     data = []
-    recipes = []
     categories = [
         "🍎 Fruit",
         "🥕 Vegetable",
@@ -53,14 +52,25 @@ def index():
         next_cursor = {"start_cursor": res["next_cursor"]}
 
     # Capture the recipes
+    recipes = []
+    recipesCategories = [
+        
+    ]
+    
     resRecipes = callDB("POST", "database", DB_RECIPES_ID)
     
     for result in resRecipes["results"]:
         recipe = {}
         recipe["name"] = result["properties"]["Name"]["title"][0]["text"]["content"]
-        
         recipe["icon"] = result["icon"]["file"]["url"]
         recipe["id"] = result["id"]
+        recipe["Fav"] = result["properties"]["Fav"]["checkbox"]
+        
+        if recipe["Fav"] == False:
+            recipe["Fav"] = ""
+        else:
+            recipe["Fav"] = "❤️"
+            
         if result["cover"] != None:
             recipe["img"] = result["cover"]["file"]["url"]
         else:

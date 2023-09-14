@@ -4,8 +4,8 @@
     <head>
         <meta name="viewport" content="initial-scale=1, width=device-width">
         <title>Grocery list</title>
-        <link rel="stylesheet" href="../static/styles.css">
-        <link rel="icon" type="image/x-icon" href="../static/grocery.ico">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     </head>
     <body>
         <div id="shopping">
@@ -15,7 +15,7 @@
                 {% for i in data %}
                     {% if i.type == category %}
                         <div id="{{ i.id }}" class="item {{ i.type }} {% if i.tobuy %}x{% endif %} {% if i.season %}gold-border{% endif %}" {% if i.tobuy %}style="display: flex;"{% else %}style="display: none;"{% endif %}>
-                            <img src="{{ i.icon }}">
+                            <img class="imageIcon" src="{{ i.icon }}">
                             <span class="text">
                                 {{ i.name }}
                             </span>
@@ -27,11 +27,14 @@
         <div id="recipes">
             <h2>Recipes</h2>
             {% for recipe in recipes %}
-                <div id="{{ recipe.id }}" class="recipe" style="background: url('{{ recipe.img }}'); background-size: 100%; background-repeat: no-repeat; background-position-y: 50%;" data-img="{{ recipe.img }}">
-                    <img src="{{ recipe.icon }}">
-                    <span class="text">
+                <div id="{{ recipe.id }}" class="recipe" data-img="{{ recipe.img }}" style="background-image: url('{{ recipe.img }}'); background-position: 50%; background-size: cover;">
+                    <img class="imageIcon" src="{{ recipe.icon }}">
+                    <div class="text">
                         {{ recipe.name }}
-                    </span>
+                    </div>
+                    <div class="fav">
+                        {{ recipe.Fav }}
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -40,16 +43,16 @@
 
         <div id="footer">
             <div class="button" id="listButton">
-                <img src="">
+                <img class="imageIcon" src="">
             </div>
             <div id="search">
                 <input type="text" placeholder="Search by name" id="searchBar">
             </div>
             <div class="button" id="recipesButton">
-                <img src="">
+                <img class="imageIcon" src="">
             </div>
             <div id="button_img" hidden>{{ button_img }}</div>
         </div>
-        <script src="../static/script.js"></script>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
     </body>
 </html>
