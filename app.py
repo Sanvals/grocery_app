@@ -60,8 +60,10 @@ def index():
         "🫙 Sauce",
     ]
     
+    # Call the recipes database
     resRecipes = callDB("POST", "database", DB_RECIPES_ID)
     
+    # Extract all the values from the database
     for result in resRecipes["results"]:
         recipe = {}
         recipe["name"] = result["properties"]["Name"]["title"][0]["text"]["content"]
@@ -79,15 +81,18 @@ def index():
             recipe["img"] = result["cover"]["file"]["url"]
         else:
             recipe["img"] = "None"
-            
+        
+        # Add only those recipes that are not Daily plan
         if recipe["name"] != "Daily plan":
             recipes.append(recipe)
     
     # Capture tue button icons
     button_img = {}
         
+    # Call the buttons database
     resButtonPack = callDB("POST", "database", DB_BUTTONS_ID)
     
+    # Extract all the values
     for index, item in enumerate(resButtonPack["results"]):
         name = item["properties"]["Name"]["title"][0]["text"]["content"]
         content = item["icon"]["file"]["url"]
@@ -126,6 +131,7 @@ def remove():
     # Execute the query
     res = callDB("PATCH", "page", objectId, json.dumps(payload)).json()
 
+    # Catch request errors
     match res["status"]:
         case 400:
             print(f" --- Error: {res['message']} --- ")
@@ -153,8 +159,10 @@ def addRecipe():
             }
         }
         
+        # Call the ingredients one by one
         res = callDB("PATCH", "page", _["id"], payload).json()
 
+        # Catch the request errors
         match res["status"]:
             case 400:
                 print(f" --- Error: {res['message']} --- ")
