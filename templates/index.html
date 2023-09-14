@@ -26,17 +26,22 @@
         </div>
         <div id="recipes">
             <h2>Recipes</h2>
-            {% for recipe in recipes %}
-                <div id="{{ recipe.id }}" class="recipe" style="background-image: url('{{ recipe.img }}'); background-position: 50%; background-size: cover;">
-                    <div class="background-overlay"></div>
-                    <img class="imageIcon" src="{{ recipe.icon }}">
-                    <div class="text">
-                        {{ recipe.name }}
-                    </div>
-                    <div class="fav">
-                        {{ recipe.Fav }}
-                    </div>
-                </div>
+            {% for category in recipesCategories %}
+            <div class="title">{{ category }}</div>
+                {% for recipe in recipes %}
+                    {% if recipe.type in category %}
+                        <div id="{{ recipe.id }}" class="recipe" style="background-image: url('{{ recipe.img }}'); background-position: 50%; background-size: cover;">
+                            <div class="background-overlay"></div>
+                            <img class="imageIcon" src="{{ recipe.icon }}">
+                            <div class="text">
+                                {{ recipe.name }}
+                            </div>
+                            <div class="fav">
+                                {{ recipe.Fav }}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             {% endfor %}
         </div>
 

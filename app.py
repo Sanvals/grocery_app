@@ -54,7 +54,10 @@ def index():
     # Capture the recipes
     recipes = []
     recipesCategories = [
-        
+        "🥗 Meal",
+        "🍨 Dessert",
+        "🍷 Drink",
+        "🫙 Sauce",
     ]
     
     resRecipes = callDB("POST", "database", DB_RECIPES_ID)
@@ -65,6 +68,7 @@ def index():
         recipe["icon"] = result["icon"]["file"]["url"]
         recipe["id"] = result["id"]
         recipe["Fav"] = result["properties"]["Fav"]["checkbox"]
+        recipe["type"] = result["properties"]["Type"]["select"]["name"].split(" - ")[1]
         
         if recipe["Fav"] == False:
             recipe["Fav"] = ""
@@ -94,7 +98,9 @@ def index():
                            data=data, 
                            categories=categories, 
                            button_img=json.dumps(button_img),
-                           recipes=recipes)
+                           recipes=recipes,
+                           recipesCategories=recipesCategories)
+
 
 # Create the route to delete items from the Notion database
 @app.route("/checkItem", methods=["POST"])
@@ -152,6 +158,7 @@ def addRecipe():
         match res["status"]:
             case 400:
                 print(f" --- Error: {res['message']} --- ")
+                return f"Error: {res['message']}"
 
     return "Recipe added"
 
