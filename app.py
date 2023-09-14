@@ -116,13 +116,16 @@ def remove():
             }
         }
     }
-    payload = json.dumps(payload)
     
     # Execute the query
-    callDB("PATCH", "page", objectId, payload)
-    
+    res = callDB("PATCH", "page", objectId, json.dumps(payload)).json()
+
+    match res["status"]:
+        case 400:
+            print(f" --- Error: {res['message']} --- ")
+            return f"Error: {res['message']}"
+
     return "Item changed"
-
-
+    
 if __name__ == "__main__":
     app.run()
