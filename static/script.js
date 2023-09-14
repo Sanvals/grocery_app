@@ -53,7 +53,13 @@ document.addEventListener("DOMContentLoaded", function() {
     // EventListeners for the recipe buttons
     itemRecipes.forEach(recipe => {
         recipe.addEventListener("click", function() {
-            console.log(recipe.getAttribute("data-img"))
+            newForm = new FormData()
+            newForm.append("id", this.id)
+
+            fetch("/addRecipe", {
+                method: 'POST',
+                body: newForm,
+            });
         })
     })
 

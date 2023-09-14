@@ -126,6 +126,35 @@ def remove():
             return f"Error: {res['message']}"
 
     return "Item changed"
+
+
+@app.route("/addRecipe", methods=["POST"])
+def addRecipe():
+    # Catch the ID of the recipe
+    recipeId = request.form.get("id")
+
+    # Get all the ingredients
+    ingredients = callDB("GET", "page", recipeId)["properties"]["Ingredients"]["relation"]
+    print(f"Found - {len(ingredients)} - ingredients")
     
+    # Print the ingredients
+    for _ in ingredients:
+        payload = {
+            "properties": {
+                "To buy": {
+                    'checkbox': True,
+                }
+            }
+        }
+        
+        res = callDB("PATCH", "page", _["id"], payload).json()
+
+        match res["status"]:
+            case 400:
+                print(f" --- Error: {res['message']} --- ")
+
+    return "Recipe added"
+
+
 if __name__ == "__main__":
     app.run()
