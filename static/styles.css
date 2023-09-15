@@ -85,6 +85,40 @@ h2 {
     padding: 10px;
     background-color: rgb(41, 41, 41);
     margin: 5px;
+    animation-name: button-disappear;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-play-state: paused;
+}
+
+@keyframes button-appear {
+    0% {
+        opacity: 0;
+        width: 0px;
+    }
+    75% {
+        opacity: 0;
+        width: 10px;
+    }
+    100% {
+        opacity: 1;
+        width: 50px;
+    }
+}
+
+@keyframes button-disappear {
+    0% {
+        opacity: 1;
+        width: 50px;
+    }
+    75% {
+        opacity: 0;
+        width: 10px;
+    }
+    100% {
+        opacity: 0;
+        width: 0px;
+    }
 }
 
 #groceryButton {

@@ -97,18 +97,33 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Pivot between the two modes
     listButton.addEventListener("click", function() {
-        // Display the search bar
+        // Display the elements
         if (search.style.display === "block") {
+            // Hide the search bar
             search.style.animationName = "search-disappear";
             search.style.animationPlayState = "running";
             setTimeout(() => {
                 search.style.animationPlayState = "paused";
                 search.style.display = "none";
             }, 500)
+
+            // Show the recipe button
+            recipesButton.style.animationName = "button-appear";
+            recipesButton.style.animationPlayState = "running";
+
         } else {
+            // Show the search bar
             search.style.display = "block";
             search.style.animationName = "search-appear";
             search.style.animationPlayState = "running";
+
+            // Hide the recipe button
+            recipesButton.style.animationName = "button-disappear";
+            recipesButton.style.animationPlayState = "running";
+            setTimeout(() => {
+                recipesButton.style.animationPlayState = "paused";
+                recipesButton.style.display = "none";
+            }, 500)
         }
 
         // Switch the elements
@@ -116,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
             this.getElementsByTagName("img")[0].src = imgPack;
 
             // Hide the recipes button
-            recipesButton.style.display = "none";
+            // recipesButton.style.display = "none";
 
             // Switch the ingredients' display
             itemButton.forEach(itm => {
@@ -150,27 +165,29 @@ document.addEventListener("DOMContentLoaded", function() {
             recipes.style.display = "flex";
             shopping.style.display = "none";
     
-            // Manage the buttons
-            listButton.style.display = "none";
+            // Change the image
             this.getElementsByTagName("img")[0].src = imgCart;
 
-            // Hide the searchbar if it's visible
-            if (search.style.animationPlayState == "running") {
-                search.style.animationName = "search-disappear";
-                search.style.animationPlayState = "running";
-                setTimeout(() => {
-                    search.style.animationPlayState = "paused";
-                    search.style.display = "none";
-                }, 500)
-            }
+            // Hide the listButton
+            listButton.style.animationName = "button-disappear";
+            listButton.style.animationPlayState = "running";
+            setTimeout(() => {
+                listButton.style.animationPlayState = "paused";
+                listButton.style.display = "none";
+            }, 500)
+
         } else {
             // Manage the areas
             recipes.style.display = "none";
             shopping.style.display = "flex";
 
-            // Manage the buttons
-            listButton.style.display = "block";
+            // Change the image
             this.getElementsByTagName("img")[0].src = imgRecipes;
+
+            // Show the listButton
+            listButton.style.display = "block";
+            listButton.style.animationName = "button-appear";
+            listButton.style.animationPlayState = "running";
 
             // Show all the tagged icons
             itemButton.forEach(itm => {
