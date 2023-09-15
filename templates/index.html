@@ -14,7 +14,7 @@
                 <div class="title">{{ category }}</div>
                 {% for i in data %}
                     {% if i.type == category %}
-                        <div id="{{ i.id }}" class="item {{ i.type }} {% if i.tobuy %}x{% endif %} {% if i.season %}gold-border{% endif %}" {% if i.tobuy %}style="display: flex;"{% else %}style="display: none;"{% endif %}>
+                        <div id="{{ i.id }}" class="item {{ i.type }} {% if i.tobuy %}x{% endif %} {% if i.season %}gold-border{% endif %}" {% if i.tobuy %}style="display: flex;"{% else %}style="display: none;"{% endif %} name="{{ i.name }}">
                             <img class="imageIcon" src="{{ i.icon }}">
                             <span class="text">
                                 {{ i.name }}
@@ -30,7 +30,7 @@
             <div class="title">{{ category }}</div>
                 {% for recipe in recipes %}
                     {% if recipe.type in category %}
-                        <div id="{{ recipe.id }}" class="recipe" style="background-image: url('{{ recipe.img }}'); background-position: 50%; background-size: cover;">
+                        <div id="{{ recipe.id }}" class="recipe" data-ingredients="{{ recipe.ingredients }}" style="background-image: url('{{ recipe.img }}'); background-position: 50%; background-size: cover;">
                             <div class="background-overlay"></div>
                             <img class="imageIcon" src="{{ recipe.icon }}">
                             <div class="text">
@@ -43,8 +43,10 @@
                     {% endif %}
                 {% endfor %}
             {% endfor %}
-        </div>
+        </div> 
 
+        <div class="item-adder">
+        </div>
         <div style="height: 50px;"></div>
 
         <div id="footer">

@@ -71,7 +71,8 @@ def index():
         recipe["id"] = result["id"]
         recipe["Fav"] = result["properties"]["Fav"]["checkbox"]
         recipe["type"] = result["properties"]["Type"]["select"]["name"].split(" - ")[1]
-        
+        recipe["ingredients"] = [d['id'] for d in result["properties"]["Ingredients"]["relation"]]
+
         if recipe["Fav"] == False:
             recipe["Fav"] = ""
         else:
@@ -85,7 +86,7 @@ def index():
         # Add only those recipes that are not Daily plan
         if recipe["name"] != "Daily plan":
             recipes.append(recipe)
-    
+        
     # Capture tue button icons
     button_img = {}
         
@@ -131,12 +132,6 @@ def remove():
     # Execute the query
     res = callDB("PATCH", "page", objectId, json.dumps(payload)).json()
 
-    # Catch request errors
-    match res["status"]:
-        case 400:
-            print(f" --- Error: {res['message']} --- ")
-            return f"Error: {res['message']}"
-
     return "Item changed"
 
 
@@ -161,12 +156,6 @@ def addRecipe():
         
         # Call the ingredients one by one
         res = callDB("PATCH", "page", _["id"], payload).json()
-
-        # Catch the request errors
-        match res["status"]:
-            case 400:
-                print(f" --- Error: {res['message']} --- ")
-                return f"Error: {res['message']}"
 
     return "Recipe added"
 

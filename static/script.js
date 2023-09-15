@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Elaborate the eventListeners
     itemButton.forEach(btn => {
         btn.addEventListener("click", function() {
-
             // Switch item from the database
             newForm = new FormData()
             newForm.append("id", btn.id)
@@ -33,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 method: 'POST',
                 body: newForm,
             });
-
+            
             if (this.classList.contains("x")) {
                 this.classList.remove("x");
             } else {
@@ -60,12 +59,44 @@ document.addEventListener("DOMContentLoaded", function() {
                 method: 'POST',
                 body: newForm,
             });
-        })
-    })
+            
+            // Extract and parse the ingredients on the div
+            const ingredients = this.dataset.ingredients.replace(/'/g, '"');
+            const ingredientsArray = JSON.parse(ingredients);
+            // console.log(ingredientsArray);
+            
+            // Identify and translate the ingredients' id into names
+            const ingredientsName = [];
+            
+            ingredientsArray.forEach(ing => {
+                itemButton.forEach(btn => {
+                    if (ing == btn.getAttribute("id")) {
+                        ingredientsName.push(btn.getAttribute("name"));
+
+                        if (!btn.classList.contains("x")) {
+                            // Add the class to be visible
+                            btn.classList.add("x");
+                            
+                            // Get the ID and mark the checkbox
+                            newForm = new FormData();
+                            newForm.append("id", ing);
+
+                            fetch("/checkItem", {
+                                method: 'POST',
+                                body: newForm,
+                            });
+                        }
+                    }
+                });
+            });
+
+            console.log(ingredientsName)
+
+        });
+    });
 
     // Pivot between the two modes
     listButton.addEventListener("click", function() {
-
         // Display the search bar
         if (search.style.display === "block") {
             search.style.animationName = "search-disappear";
@@ -84,6 +115,10 @@ document.addEventListener("DOMContentLoaded", function() {
         if (this.getElementsByTagName("img")[0].src == imgList) {
             this.getElementsByTagName("img")[0].src = imgPack;
 
+            // Hide the recipes button
+            recipesButton.style.display = "none";
+
+            // Switch the ingredients' display
             itemButton.forEach(itm => {
                 if (itm.style.display == "flex") {
                     itm.style.display = "none";
@@ -94,6 +129,10 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             this.getElementsByTagName("img")[0].src = imgList;
 
+            // Show the recipes button
+            recipesButton.style.display = "block";
+
+            // Switch the ingredients' display
             itemButton.forEach(itm => {
                 if(itm.classList.contains("x")) {
                     itm.style.display = "flex";
@@ -132,16 +171,18 @@ document.addEventListener("DOMContentLoaded", function() {
             // Manage the buttons
             listButton.style.display = "block";
             this.getElementsByTagName("img")[0].src = imgRecipes;
-        }
-    })
 
-    // Clean the screen of empty objects
-    titles.forEach(tit => {
-        const name = tit.innerHTML.split(" ")[1]
-        const items = document.getElementById("shopping").getElementsByClassName(`${name}`)
+            // Show all the tagged icons
+            itemButton.forEach(itm => {
+                if(itm.classList.contains("x")) {
+                    itm.style.display = "flex";
+                } else {
+                    itm.style.display = "none";
+                }
+            });
 
-        if (items.length == 0) {
-            tit.style.display = "none";
+            // Change the listButton img to list
+            listButton.getElementsByTagName("img")[0].src = imgList;
         }
     })
 
