@@ -6,17 +6,20 @@ document.addEventListener("DOMContentLoaded", function() {
     const itemButton = document.querySelectorAll(".item");
     const listButton = document.querySelector("#listButton");
     const recipesButton = document.querySelector("#recipesButton");
+    const emptyButton = document.querySelector("#emptyButton");
     const itemRecipes = document.querySelectorAll(".recipe");
     const imgPack = JSON.parse(document.getElementById("button_img").textContent)["pack"];
     const imgList = JSON.parse(document.getElementById("button_img").textContent)["list"];
     const imgRecipes = JSON.parse(document.getElementById("button_img").textContent)["recipes"];
     const imgCart = JSON.parse(document.getElementById("button_img").textContent)["cart"];
+    const imgEmpty = JSON.parse(document.getElementById("button_img").textContent)["empty"];
     const search = document.querySelector("#search");
     const searchBar = document.querySelector("#searchBar");
     
     // Assign the btutons the proper images
     listButton.getElementsByTagName("img")[0].src = imgList;
     recipesButton.getElementsByTagName("img")[0].src = imgRecipes;
+    emptyButton.getElementsByTagName("img")[0].src = imgEmpty;
 
     // Hide the recipes area
     recipes.style.display = "none";
@@ -46,6 +49,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 this.style.display = "none";
                 this.style.animationPlayState = "paused"
             });
+
+            displayIngredients();
         });
     });
 
@@ -90,8 +95,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
             });
 
-            console.log(ingredientsName)
-
+            displayIngredients();
         });
     });
 
@@ -129,9 +133,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Switch the elements
         if (this.getElementsByTagName("img")[0].src == imgList) {
             this.getElementsByTagName("img")[0].src = imgPack;
-
-            // Hide the recipes button
-            // recipesButton.style.display = "none";
 
             // Switch the ingredients' display
             itemButton.forEach(itm => {
@@ -176,6 +177,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 listButton.style.display = "none";
             }, 500)
 
+            // Hide the empty list button
+            emptyButton.style.animationName = "button-disappear";
+            emptyButton.style.animationPlayState = "running";
+            setTimeout(() => {
+                emptyButton.style.animationPlayState = "paused";
+                emptyButton.style.display = "none";
+            }, 500)
+
         } else {
             // Manage the areas
             recipes.style.display = "none";
@@ -189,6 +198,11 @@ document.addEventListener("DOMContentLoaded", function() {
             listButton.style.animationName = "button-appear";
             listButton.style.animationPlayState = "running";
 
+            // Show the empty list button
+            emptyButton.style.display = "block";
+            emptyButton.style.animationName = "button-appear";
+            emptyButton.style.animationPlayState = "running";
+
             // Show all the tagged icons
             itemButton.forEach(itm => {
                 if(itm.classList.contains("x")) {
@@ -201,6 +215,8 @@ document.addEventListener("DOMContentLoaded", function() {
             // Change the listButton img to list
             listButton.getElementsByTagName("img")[0].src = imgList;
         }
+
+        displayIngredients();
     })
 
     // Search engine
@@ -218,4 +234,47 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     });
+
+    // Create the function to display the ingredients
+    function displayIngredients() {
+        // On each of the recipe elements
+        itemRecipes.forEach(recipe => {
+            // First empty the list
+            recipe.getElementsByClassName("ingredients-area")[0].innerHTML = "";
+
+            // Extract and parse the ingredients
+            const ingredients = recipe.dataset.ingredients.replace(/'/g, '"');
+            const ingredientsIDArray = JSON.parse(ingredients);
+
+            // Identify and translate the ingredients' id into names
+            let ingredientsNAMEArray = [];
+            ingredientsIDArray.forEach(ing => {
+                itemButton.forEach(btn => {
+                    if (ing == btn.getAttribute("id")) {
+                        ingredientsNAMEArray.push(btn.getAttribute("name"));
+                    }
+                });
+            })
+            
+            // Add the ingredients to ingredients-area as divs
+            ingredientsNAMEArray.forEach(ing => {
+                const ingDiv = document.createElement("div");
+                ingDiv.textContent = ing;
+                // Color in green if this item exists on the list
+                itemButton.forEach(btn => {
+                    // First find the appropiate ingredient
+                    if (ing === btn.getAttribute("name")){
+                        // Then check if it has "x" on the classlist
+                        if (btn.classList.contains("x")){
+                            ingDiv.style.color = "green";
+                        }
+                    }
+                })
+                // Append the ingredient to the recipe
+                recipe.getElementsByClassName("ingredients-area")[0].appendChild(ingDiv);
+            })
+        })
+    }
+
+    displayIngredients();
 });
