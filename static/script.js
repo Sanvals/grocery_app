@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Catch the divs
+    const title = document.querySelector("h2");
     const shopping = document.querySelector("#shopping");
     const recipes = document.querySelector("#recipes");
-    const titles = document.getElementById("shopping").querySelectorAll(".title");
     const itemButton = document.querySelectorAll(".item");
     const listButton = document.querySelector("#listButton");
     const recipesButton = document.querySelector("#recipesButton");
@@ -28,13 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
     itemButton.forEach(btn => {
         btn.addEventListener("click", function() {
             // Switch item from the database
-            newForm = new FormData()
-            newForm.append("id", btn.id)
-
-            fetch("/checkItem", {
-                method: 'POST',
-                body: newForm,
-            });
+            checkItem(btn);
             
             if (this.classList.contains("x")) {
                 this.classList.remove("x");
@@ -83,13 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             btn.classList.add("x");
                             
                             // Get the ID and mark the checkbox
-                            newForm = new FormData();
-                            newForm.append("id", ing);
-
-                            fetch("/checkItem", {
-                                method: 'POST',
-                                body: newForm,
-                            });
+                            checkItem(btn);
                         }
                     }
                 });
@@ -133,6 +121,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Switch the elements
         if (this.getElementsByTagName("img")[0].src == imgList) {
             this.getElementsByTagName("img")[0].src = imgPack;
+            title.textContent = "Ingredients";
 
             // Switch the ingredients' display
             itemButton.forEach(itm => {
@@ -142,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     itm.style.display = "flex";
                 }
             });
+
 
             // And hide the empty list button
             emptyButton.style.animationName = "button-disappear";
@@ -153,6 +143,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         } else {
             this.getElementsByTagName("img")[0].src = imgList;
+            title.textContent = "Shopping list";
 
             // Show the recipes button
             recipesButton.style.display = "block";
@@ -182,6 +173,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
             // Change the image
             this.getElementsByTagName("img")[0].src = imgCart;
+            title.textContent = "Recipes";
 
             // Hide the listButton
             listButton.style.animationName = "button-disappear";
@@ -206,6 +198,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Change the image
             this.getElementsByTagName("img")[0].src = imgRecipes;
+            title.textContent = "Shopping List";
 
             // Show the listButton
             listButton.style.display = "block";
@@ -244,13 +237,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 itm.classList.remove("x");
 
                 // Call the API and uncheck the item
-                newForm = new FormData()
-                newForm.append("id", itm.id)
-    
-                fetch("/checkItem", {
-                    method: 'POST',
-                    body: newForm,
-                });
+                checkItem(itm);
             }
         });
     })
@@ -258,30 +245,29 @@ document.addEventListener("DOMContentLoaded", function() {
     // Search engine
     searchBar.addEventListener("input", function () {
         const query = searchBar.value.toLowerCase();
-
-        let total = itemButton.length;
-        for (let i = 0; i < total; i++){
-            const name = itemButton[i].getElementsByClassName("text")[0].textContent.trim().toLowerCase();
-            const show = itemButton[1].classList.contains("x");
-            if (name.includes(query) && !show) {
-                itemButton[i].style.display = "flex";
-            } else {
-                itemButton[i].style.display = "none";
-            }
-        }
+        
+        // Cycle through all the ingredients against the query
+        itemButton.forEach(button => {
+            const name = button.getElementsByClassName("text")[0].textContent.trim().toLowerCase();
+            const show = button.classList.contains("x");
+            button.style.display = name.includes(query) && !show ? "flex" : "none";
+        })
     });
 
-    // Create the function to display the ingredients
+    displayIngredients();
+
+    // Functions
     function displayIngredients() {
         // On each of the recipe elements
         itemRecipes.forEach(recipe => {
             // First empty the list
-            recipe.getElementsByClassName("ingredients-area")[0].innerHTML = "";
-
+            const ingredientsArea = recipe.getElementsByClassName("ingredients-area")[0];
+            ingredientsArea.innerHTML = "";
+    
             // Extract and parse the ingredients
             const ingredients = recipe.dataset.ingredients.replace(/'/g, '"');
             const ingredientsIDArray = JSON.parse(ingredients);
-
+    
             // Identify and translate the ingredients' id into names
             let ingredientsNAMEArray = [];
             ingredientsIDArray.forEach(ing => {
@@ -307,31 +293,36 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 })
                 // Append the ingredient to the recipe
-                recipe.getElementsByClassName("ingredients-area")[0].appendChild(ingDiv);
+                ingredientsArea.appendChild(ingDiv);
             })
-
+    
             // Count how many ingredients this recipe has tagged
             const total = ingredientsNAMEArray.length;
             let counter = 0;
-
+    
             // Count the number of green ingredients in this recipe
-            const ingredientsCounter = recipe.getElementsByClassName("ingredients-area")[0];
+            const ingredientsCounter = recipe.querySelector(".ingredients-area");
             ingredientsCounter.childNodes.forEach(ing => {
                 if (ing.style.color == "green") {
                     counter += 1;
                 }
             })
-
-            // Grab the title of this recipe
-            const title = recipe.getElementsByClassName("text")[0];
-            if (total == counter) {
-                title.style.color = "green";
-                console.log(title.textContent + " is fully chosen");
-            } else {
-                title.style.color = "black";
-            }
+    
+            // Grab the title of this recipe and modify it
+            const title = recipe.querySelector(".text");
+            title.style.color = total === counter ? "green" : "black";
         })
     }
 
-    displayIngredients();
+    function checkItem(btn){
+        // Create the form for the data
+        newForm = new FormData()
+        newForm.append("id", btn.id)
+
+        // Make an API call to revet the check
+        fetch("/checkItem", {
+            method: 'POST',
+            body: newForm,
+        });
+    }
 });

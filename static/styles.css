@@ -5,9 +5,18 @@
 }
 
 h2 {
-    margin: auto;
-    width: 97vw;
+    width: 100vw;
+    height: 35px;
+    position: fixed;
     text-align: center;
+    z-index: 5;
+    top: 0%;
+    left: 0%;
+    margin: 0;
+    border: 1px solid rgb(68, 68, 68);
+    border-color: rgb(118, 109, 97);
+    background-color: #1c1b22;
+    border-width: 0 0 1px 0;
 }
 
 #shopping, #list, #recipes {
@@ -29,6 +38,7 @@ h2 {
 .item {
     width: 94vw;
     border-radius: 50px;
+    border: 1px solid rgba(94, 94, 94, 0.4);
     padding: 10px;
     margin-bottom: 10px;
     display: flex;

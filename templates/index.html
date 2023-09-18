@@ -9,7 +9,7 @@
     </head>
     <body>
         <div id="shopping">
-            <h2>Ingredients</h2>
+            <h2>Shopping List</h2>
             {% for category in categories %}
                 <div class="title">{{ category }}</div>
                 {% for i in data | sort(attribute="name")  %}
