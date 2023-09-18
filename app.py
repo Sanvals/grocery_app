@@ -40,12 +40,19 @@ def index():
         for result in res["results"]:
             item = {}
             item["name"] = result["properties"]["Ingredient"]["title"][0]["text"]["content"]
-            item["icon"] = result["icon"]["file"]["url"]
+            
+                
             item["id"] = result["id"]
             item["type"] = result["properties"]["Type"]["multi_select"][0]["name"]
             item["tobuy"] = result["properties"]["To buy"]["checkbox"]
             item["season"] = result["properties"]["Season"]["formula"]["boolean"]
             
+            # Try to get the icon
+            try:
+                item["icon"] = result["icon"]["file"]["url"]
+            except Exception:
+                item["icon"] = "./static/noicon.png"
+                
             # Finish populating the list
             data.append(item)
         
@@ -81,7 +88,7 @@ def index():
         if result["cover"] != None:
             recipe["img"] = result["cover"]["file"]["url"]
         else:
-            recipe["img"] = "None"
+            recipe["img"] = "./static/nobackground.jpg"
         
         # Add only those recipes that are not Daily plan
         if recipe["name"] != "Daily plan":

@@ -142,6 +142,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     itm.style.display = "flex";
                 }
             });
+
+            // And hide the empty list button
+            emptyButton.style.animationName = "button-disappear";
+            emptyButton.style.animationPlayState = "running";
+            setTimeout(() => {
+                emptyButton.style.animationPlayState = "paused";
+                emptyButton.style.display = "none";
+            }, 500)
+
         } else {
             this.getElementsByTagName("img")[0].src = imgList;
 
@@ -156,6 +165,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     itm.style.display = "none";
                 }
             });
+
+            // Show the empty list button
+            emptyButton.style.display = "block";
+            emptyButton.style.animationName = "button-appear";
+            emptyButton.style.animationPlayState = "running";
         }
     })
 
@@ -219,6 +233,28 @@ document.addEventListener("DOMContentLoaded", function() {
         displayIngredients();
     })
 
+    // Click on one button to empty all the checked elements
+    emptyButton.addEventListener("click", function() {
+        // Cycle through all the itemButtons
+        itemButton.forEach(itm => {
+            // If they are tagged as "to buy" with an "x"
+            if(itm.classList.contains("x")) {
+                // Hide them and remove the "x"
+                itm.style.display = "none";
+                itm.classList.remove("x");
+
+                // Call the API and uncheck the item
+                newForm = new FormData()
+                newForm.append("id", itm.id)
+    
+                fetch("/checkItem", {
+                    method: 'POST',
+                    body: newForm,
+                });
+            }
+        });
+    })
+
     // Search engine
     searchBar.addEventListener("input", function () {
         const query = searchBar.value.toLowerCase();
@@ -273,6 +309,27 @@ document.addEventListener("DOMContentLoaded", function() {
                 // Append the ingredient to the recipe
                 recipe.getElementsByClassName("ingredients-area")[0].appendChild(ingDiv);
             })
+
+            // Count how many ingredients this recipe has tagged
+            const total = ingredientsNAMEArray.length;
+            let counter = 0;
+
+            // Count the number of green ingredients in this recipe
+            const ingredientsCounter = recipe.getElementsByClassName("ingredients-area")[0];
+            ingredientsCounter.childNodes.forEach(ing => {
+                if (ing.style.color == "green") {
+                    counter += 1;
+                }
+            })
+
+            // Grab the title of this recipe
+            const title = recipe.getElementsByClassName("text")[0];
+            if (total == counter) {
+                title.style.color = "green";
+                console.log(title.textContent + " is fully chosen");
+            } else {
+                title.style.color = "black";
+            }
         })
     }
 
