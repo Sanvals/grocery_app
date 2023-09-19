@@ -21,6 +21,7 @@ def index():
         "🥕 Vegetable",
         "🧀 Dairy",
         "🥩 Meat",
+        "🐟 Fish",
         "🍹 Drink",
         "🥯 Bread",
         "🍝 Pasta",
