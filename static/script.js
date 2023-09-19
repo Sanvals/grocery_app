@@ -37,11 +37,13 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             // Play the animation
+            
+            this.style.animationName = window.innerWidth > 600 ? "hide-side" : "hide-bottom";
             this.style.animationPlayState = "running";
             this.addEventListener('animationend', () => {
                 // Once it ends, hide the div
                 this.style.display = "none";
-                this.style.animationPlayState = "paused"
+                this.style.animationPlayState = "paused";
             });
 
             displayIngredients();

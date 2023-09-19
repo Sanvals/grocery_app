@@ -31,14 +31,16 @@ h2 {
     border-radius: 50px;
     border: 1px solid rgba(94, 94, 94, 0.4);
     padding: 10px;
-    box-shadow: rgb(0, 0, 0) 0px 0px 10px;
     margin-bottom: 10px;
+    box-shadow: rgb(0, 0, 0) 0px 0px 10px;
     display: flex;
     background-color: rgb(41, 41, 41);
-    animation-name: hide-bottom;
+    /* animation-name: none; */
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
     animation-play-state: paused;
+    transition: 0.3s;
+    position: relative;
 }
 
 .recipe {
@@ -53,6 +55,11 @@ h2 {
     display: flex;
     border: solid 1px #00000070;
     box-shadow: 0 0 10px black inset;
+    transition: 0.3s;
+}
+
+.recipe:hover, .item:hover {
+    transform: scale(1.1);
 }
 
 .ingredients-area {
@@ -163,11 +170,20 @@ h2 {
 
 .title {
     border-radius: 50px;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 2px;
+    margin: 0px;
     background-color: rgba(41, 41, 41, 0);
     font-weight: bold;
     width: 100vw;
+    transition: 0.3s;
+}
+
+.badge {
+    background-color: red;
+    color: white;
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 10px;
 }
 
 #footer {
@@ -260,11 +276,12 @@ h2 {
         min-height: 100px;
         margin: 10px;
         position: relative;
-        justify-content: center;    
-        animation-name: hide-side;
+        justify-content: center;
+        /* animation-name: none; */
         animation-duration: 0.5s;
         animation-fill-mode: forwards;
         animation-play-state: paused;
+        transition: 0.3s;
     }
 
     .recipe {
@@ -275,7 +292,7 @@ h2 {
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        margin: 5px;
+        margin: 10px;
     }
 
     .ingredients-area {
@@ -324,7 +341,6 @@ h2 {
 
     .title {
         width: 100vw;
-        margin: 0px;
     }
 
     .button {
