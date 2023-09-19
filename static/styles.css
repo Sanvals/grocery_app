@@ -6,17 +6,8 @@
 
 h2 {
     width: 100vw;
-    height: 35px;
-    position: fixed;
+    margin: auto;
     text-align: center;
-    z-index: 5;
-    top: 0%;
-    left: 0%;
-    margin: 0;
-    border: 1px solid rgb(68, 68, 68);
-    border-color: rgb(118, 109, 97);
-    background-color: #1c1b22;
-    border-width: 0 0 1px 0;
 }
 
 #shopping, #list, #recipes {
@@ -40,6 +31,7 @@ h2 {
     border-radius: 50px;
     border: 1px solid rgba(94, 94, 94, 0.4);
     padding: 10px;
+    box-shadow: rgb(0, 0, 0) 0px 0px 10px;
     margin-bottom: 10px;
     display: flex;
     background-color: rgb(41, 41, 41);
@@ -59,7 +51,6 @@ h2 {
     position: relative;
     overflow: hidden;
     display: flex;
-    background-image: none;
     border: solid 1px #00000070;
     box-shadow: 0 0 10px black inset;
 }
@@ -280,10 +271,6 @@ h2 {
         width: 150px;
         height: 230px;
         border-radius: 10px;
-        padding: 10px;
-        margin-bottom: 10px;
-        background-color: rgb(41, 41, 41);
-        display: inline-block;
         position: relative;
         overflow: hidden;
         display: flex;
