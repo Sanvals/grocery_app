@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const imgEmpty = JSON.parse(document.getElementById("button_img").textContent)["empty"];
     const search = document.querySelector("#search");
     const searchBar = document.querySelector("#searchBar");
+    const GREEN = "#72ff72";
+    const BLACK = "canvasText";
     
     // Assign the btutons the proper images
     listButton.getElementsByTagName("img")[0].src = imgList;
@@ -290,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     if (ing === btn.getAttribute("name")){
                         // Then check if it has "x" on the classlist
                         if (btn.classList.contains("x")){
-                            ingDiv.style.color = "green";
+                            ingDiv.style.color = GREEN;
                         }
                     }
                 })
@@ -305,14 +307,14 @@ document.addEventListener("DOMContentLoaded", function() {
             // Count the number of green ingredients in this recipe
             const ingredientsCounter = recipe.querySelector(".ingredients-area");
             ingredientsCounter.childNodes.forEach(ing => {
-                if (ing.style.color == "green") {
+                if (ing.style.color == GREEN) {
                     counter += 1;
                 }
             })
     
             // Grab the title of this recipe and modify it
             const title = recipe.querySelector(".text");
-            title.style.color = total === counter ? "green" : "black";
+            title.style.color = total === counter ? GREEN : BLACK;
         })
     }
 
