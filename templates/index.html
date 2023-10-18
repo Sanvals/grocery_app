@@ -8,59 +8,55 @@
         <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     </head>
     <body>
-        <div id="shopping">
-            <h2>Shopping List</h2>
+        <section id="shopping">
+            <h1>Shopping List</h1>
             {% for category in categories %}
-                <div class="title">{{ category }}</div>
+                <h4 class="title">{{ category }}</h4>
                 {% for i in data | sort(attribute="name")  %}
                     {% if i.type == category %}
-                        <div id="{{ i.id }}" class="item {{ i.type }} {% if i.tobuy %}x{% endif %} {% if i.season %}gold-border{% endif %}" {% if i.tobuy %}style="display: flex;"{% else %}style="display: none;"{% endif %} name="{{ i.name }}">
-                            <img class="imageIcon" src="{{ i.icon }}" loading="lazy">
+                        <section id="{{ i.id }}" class="item {{ i.type }} {% if i.tobuy %}x{% endif %} {% if i.season %}gold-border{% endif %}" {% if i.tobuy %}style="display: flex;"{% else %}style="display: none;"{% endif %} name="{{ i.name }}">
+                            <img class="imageIcon" src="{{ i.icon }}" alt="{{ i.name }}" loading="lazy">
                             <span class="text">
                                 {{ i.name }}
                             </span>
-                        </div>
+                        </section>
                     {% endif %}
                 {% endfor %}
             {% endfor %}
-        </div>
-        <div id="recipes">
-            <h2>Recipes</h2>
+        </section>
+        <section id="recipes">
+            <h1>Recipes</h1>
             {% for category in recipesCategories %}
-            <div class="title">{{ category }}</div>
+            <h4 class="title">{{ category }}</h4>
                 {% for recipe in recipes | sort(attribute="name") %}
                     {% if recipe.type in category %}
-                        <div id="{{ recipe.id }}" class="recipe" data-ingredients="{{ recipe.ingredients }}" style="background-image: url('{{ recipe.img }}'); background-position: 50%; background-size: cover;">
+                        <section id="{{ recipe.id }}" class="recipe" data-ingredients="{{ recipe.ingredients }}" style="background-image: url('{{ recipe.img }}'); background-position: 50%; background-size: cover;">
                             <div class="background-overlay"></div>
-                            <img class="imageIcon" src="{{ recipe.icon }}" loading="lazy">
-                            <div class="text">{{ recipe.name }}</div>
+                            <img class="imageIcon" src="{{ recipe.icon }}" alt="{{ recipe.name }}" aloading="lazy">
+                            <h4 class="text">{{ recipe.name }}</h4>
                             <div class="ingredients-area"></div>
                             <div class="fav">{{ recipe.Fav }}</div>
-                        </div>
+                        </section>
                     {% endif %}
                 {% endfor %}
             {% endfor %}
-        </div> 
-
-        <div class="item-adder">
-        </div>
+        </section> 
         <div style="height: 50px;"></div>
-
-        <div id="footer">
+        <footer>
             <div class="button" id="listButton">
-                <img class="imageIcon" src="" loading="lazy">
+                <img class="imageIcon" src="" alt="list" loading="lazy">
             </div>
             <div id="search">
                 <input type="text" placeholder="Search by name" id="searchBar">
             </div>
             <div class="button" id="recipesButton">
-                <img class="imageIcon" src="" loading="lazy">
+                <img class="imageIcon" src="" alt="recipes" loading="lazy">
             </div>
             <div class="button" id="emptyButton">
-                <img class="imageIcon" src="" loading="lazy">
+                <img class="imageIcon" src="" alt="empty" loading="lazy">
             </div>
             <div id="button_img" hidden>{{ button_img }}</div>
-        </div>
+        </footer>
         <script src="{{ url_for('static', filename='script.js') }}"></script>
     </body>
 </html>

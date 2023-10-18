@@ -12,6 +12,7 @@ headers = {
   "Notion-Version": "2022-06-28"
 }
 
+
 def callDB(method, kind, id, payload={}):
     match kind:
         case "block":
@@ -36,7 +37,6 @@ def callDB(method, kind, id, payload={}):
                                 kind + id,
                                 data=payload,
                                 headers=headers)
-    
+
     else:
         print("Not a valid method")
-

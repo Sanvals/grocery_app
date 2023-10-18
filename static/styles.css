@@ -4,7 +4,7 @@
     font-family: "Calibri";
 }
 
-h2 {
+h1 {
     width: 100vw;
     margin: auto;
     text-align: center;
@@ -39,7 +39,7 @@ h2 {
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
     animation-play-state: paused;
-    transition: 0.3s;
+    /* transition: 0.3s; */
     position: relative;
 }
 
@@ -58,9 +58,11 @@ h2 {
     transition: 0.3s;
 }
 
+/*
 .recipe:hover, .item:hover {
     transform: scale(1.1);
 }
+*/
 
 .ingredients-area {
     z-index: 1;
@@ -186,7 +188,7 @@ h2 {
     border-radius: 10px;
 }
 
-#footer {
+footer {
     background-color: #1c1b22;
     position: fixed;
     left: 0;
@@ -281,7 +283,6 @@ h2 {
         animation-duration: 0.5s;
         animation-fill-mode: forwards;
         animation-play-state: paused;
-        transition: 0.3s;
     }
 
     .recipe {
@@ -313,6 +314,7 @@ h2 {
         right: 40%;
         top: 1%;
     }
+    
     .item .text {
         position: absolute;
         top: 70%;
